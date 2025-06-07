@@ -1,0 +1,17 @@
+@use '@/app/styles/_variables.scss' as *;
+
+body {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-family: 'Geologica', Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: $forenground;
+  background-color: $background;
+
+  user-select: none;
+}
