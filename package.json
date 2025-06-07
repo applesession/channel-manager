@@ -7,11 +7,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mock-server-1": "bunx json-server ./src/shared/api/mocks/users.db-1.json --port 4000",
+    "mock-server-2": "bunx json-server ./src/shared/api/mocks/users.db-2.json --port 4001",
+    "mock-server-3": "bunx json-server ./src/shared/api/mocks/users.db-3.json --port 4002"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.80.6",
     "axios": "^1.9.0",
+    "json-server": "^1.0.0-beta.3",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
     "path": "^0.12.7",

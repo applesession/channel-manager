@@ -1,0 +1,9 @@
+{
+  "users": [
+    { "id": 1, "name": "Kate", "emoji": "👜", "device": "Windows" },
+    { "id": 2, "name": "Max", "emoji": "🔫", "device": "Mackbook" },
+    { "id": 3, "name": "Jane", "emoji": "🎁", "device": "Linux" },
+    { "id": 4, "name": "Maria", "emoji": "🏸", "device": "Iphone" }
+  ],
+  "health": { "status": "DOWN" }
+}
