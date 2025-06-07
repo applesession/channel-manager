@@ -1,0 +1,53 @@
+.channel {
+  background-color: $primary;
+  padding: 0.5rem 1rem;
+  border-radius: $rounded-base;
+  font-weight: 600;
+
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: $text-base;
+
+  transition: background-color 0.18s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $secondary;
+  }
+}
+
+.connected {
+  background-color: $secondary;
+
+  .status {
+    background-color: #144d24;
+  }
+}
+
+.idle {
+  .status {
+    background-color: #723401;
+  }
+}
+
+.unavailable {
+  background-color: $background;
+
+  .subtitle {
+    color: $muted;
+  }
+
+  .status {
+    background-color: #7c1512;
+  }
+}
+
+.status {
+  border-radius: $rounded-full;
+  padding: 0.3rem 1rem;
+  font-size: $text-sm;
+
+  background-color: $background;
+}

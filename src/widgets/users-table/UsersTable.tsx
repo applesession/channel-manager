@@ -7,7 +7,7 @@ export const UsersTable = observer(() => {
 
   return (
     <div className={styles.wrapper}>
-      <h2>Response</h2>
+      <p>Response</p>
 
       <table>
         <thead>

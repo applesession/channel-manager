@@ -1,3 +1,4 @@
+import { makeAutoObservable } from 'mobx';
 import type { IBaseChannel, IChannel } from '../types/channel.type';
 import { HealthChecker } from './health-checker';
 
@@ -7,6 +8,10 @@ export class ChannelManager {
   channels: IChannel[] = [];
   healthChecker: HealthChecker | null = null;
   currentChannel: IChannel | null = null;
+
+  private constructor() {
+    makeAutoObservable(this);
+  }
 
   static async create(channels: IBaseChannel[]) {
     const instance = new ChannelManager();

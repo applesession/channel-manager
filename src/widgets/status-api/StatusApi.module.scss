@@ -1,0 +1,27 @@
+.wrapper {
+  background-color: $ultra-dark;
+  padding: $padding-layout;
+  border-radius: $rounded-base;
+
+  > * + * {
+    margin-top: 1rem;
+  }
+}
+
+.title {
+  color: $muted;
+  font-size: $text-sm;
+}
+
+.endpoint {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.channels-list {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
