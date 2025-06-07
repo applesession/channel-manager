@@ -16,10 +16,10 @@ class UserService {
     return instance;
   }
 
-  async getUsers() {
+  async getUsers(signal: AbortSignal) {
     if (!this.channelManager?.currentChannel?.endpoint) return;
 
-    return axios.get<IUser[]>(this.channelManager?.currentChannel?.endpoint);
+    return axios.get<IUser[]>(this.channelManager?.currentChannel?.endpoint, { signal });
   }
 }
 

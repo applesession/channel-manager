@@ -8,8 +8,12 @@ class UserStore {
   private usersQuery = new MobxQuery(
     () => ({
       queryKey: ['users', this.currentChannel?.endpoint],
-      queryFn: () => userService.getUsers(),
+      queryFn: async ({ signal }) => {
+        await new Promise((res) => setTimeout(res, 1000));
+        return await userService.getUsers(signal);
+      },
       select: (data) => data?.data,
+      placeholderData: (data) => data,
     }),
     queryClient
   );
@@ -19,11 +23,21 @@ class UserStore {
   }
 
   get users() {
-    return this.usersQuery.result().data;
+    const data = this.usersQuery.result().data;
+    console.log(data);
+    return data;
   }
 
   get isLoading() {
     return this.usersQuery.result().isLoading;
+  }
+
+  get isFetching() {
+    return this.usersQuery.result().isFetching;
+  }
+
+  get isFetched() {
+    return this.usersQuery.result().isFetched;
   }
 
   // note: нижестоящие свойства и методы нужны для отображения UI!

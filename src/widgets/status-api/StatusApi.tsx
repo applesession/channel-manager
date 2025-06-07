@@ -11,7 +11,7 @@ export const StatusApi = observer(() => {
       <p className={styles.title}>Status API</p>
 
       <div className={styles.endpoint}>
-        <p>Current Endpoint</p>
+        <p>Current Endpoint:</p>
         <code>{currentChannel?.endpoint}</code>
       </div>
 
