@@ -4,5 +4,5 @@
     { "id": 2, "name": "Max", "emoji": "🔫", "device": "Mackbook" },
     { "id": 3, "name": "Jane", "emoji": "🎁", "device": "Linux" }
   ],
-  "health": { "status": "DEGRADED" }
+  "health": { "status": "DEGRADED", "endpoint": "http://localhost:4001/health" }
 }

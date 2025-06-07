@@ -8,7 +8,7 @@ class UserStore {
     () => ({
       queryKey: ['users'],
       queryFn: () => userService.getUsers(),
-      select: (data) => data,
+      select: (data) => data?.data,
     }),
     queryClient
   );
@@ -19,6 +19,10 @@ class UserStore {
 
   get users() {
     return this.usersQuery.result().data;
+  }
+
+  get isLoading() {
+    return this.usersQuery.result().isLoading;
   }
 }
 
