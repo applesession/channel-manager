@@ -8,6 +8,7 @@ export class ChannelManager {
   channels: IChannel[] = [];
   healthChecker: HealthChecker | null = null;
   currentChannel: IChannel | null = null;
+  private monitoringInterval: NodeJS.Timeout | null = null;
 
   private constructor() {
     makeAutoObservable(this);
@@ -21,6 +22,7 @@ export class ChannelManager {
     instance.channels = healthChannels;
     instance.sortChannelsForPriority();
     instance.autoSwitchChannel();
+    instance.monitoringCurrentChannel();
 
     return instance;
   }
@@ -48,6 +50,12 @@ export class ChannelManager {
     channel.status = 'connected';
     this.currentChannel = channel;
   };
+
+  private monitoringCurrentChannel() {
+    if (!this.currentChannel) return;
+
+    this.monitoringInterval = setInterval(() => console.log(this.currentChannel), 2000);
+  }
 
   private getBestAvailableChannel() {
     return this.channels.find(

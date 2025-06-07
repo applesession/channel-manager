@@ -3,5 +3,5 @@
     { "id": 1, "name": "Kate", "emoji": "👜", "device": "Windows" },
     { "id": 2, "name": "Max", "emoji": "🔫", "device": "Mackbook" }
   ],
-  "health": { "status": "ERROR", "endpoint": "http://localhost:4002/health" }
+  "health": { "status": "OUT_OF_SERVICE" }
 }

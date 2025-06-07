@@ -1,3 +1,3 @@
 export interface IHealth {
-  status: 'OK' | 'DEGRADED' | 'ERROR';
+  status: 'UP' | 'DOWN' | 'OUT_OF_SERVICE';
 }

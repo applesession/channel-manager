@@ -1,8 +1,9 @@
 .channel {
-  background-color: $primary;
   padding: 0.5rem 1rem;
+  background-color: $primary;
   border-radius: $rounded-base;
   font-weight: 600;
+  position: relative;
 
   display: flex;
   gap: 0.5rem;
@@ -15,6 +16,10 @@
 
   &:hover {
     background-color: $secondary;
+
+    .modal {
+      display: block;
+    }
   }
 }
 
@@ -27,5 +32,29 @@
 
   .subtitle {
     color: $muted;
+  }
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  right: 0;
+  border: 0.2rem solid $secondary;
+  border-radius: $rounded-base;
+  background-color: $primary;
+  padding: $padding-layout 0.5rem;
+  text-align: left;
+  color: $muted;
+
+  > * + * {
+    margin-top: 0.5rem;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    font-size: $text-xs;
   }
 }

@@ -29,6 +29,18 @@ export function ChannelItem({ channel }: Props) {
     >
       <p className={styles.subtitle}>status</p>
       <Badge color={statusColors[channel.status]}>{channel.status}</Badge>
+
+      <div className={styles.modal}>
+        <div>
+          <p>priority:</p>
+          <p>{channel.priority}</p>
+        </div>
+
+        <div>
+          <p>endpoint:</p>
+          <p>{channel.endpoint}</p>
+        </div>
+      </div>
     </button>
   );
 }
