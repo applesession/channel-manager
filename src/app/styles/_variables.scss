@@ -4,7 +4,12 @@ $muted: #646464;
 $primary: #141414;
 $secondary: #202020;
 
-$text-xs: 12px;
-$text-sm: 14px;
-$text-base: 16px;
-$text-xl: 18px;
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-xl: 1.125rem;
+
+$rounded-base: 0.75rem;
+$rounded-full: 999rem;
+
+$padding-layout: 1rem;
