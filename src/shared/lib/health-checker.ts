@@ -16,6 +16,21 @@ export class HealthChecker {
     return (await Promise.allSettled(healthEndnpoints)).map(this.transformChannel);
   }
 
+  async checkChannel(channel: IChannel): Promise<IChannel | null> {
+    try {
+      const health = await channel.healthEndpoint();
+      return this.transformChannel(
+        {
+          status: 'fulfilled',
+          value: health,
+        },
+        this.channels.findIndex((c) => c.id === channel.id)
+      );
+    } catch {
+      return null;
+    }
+  }
+
   private transformChannel = (
     channel: PromiseSettledResult<IHealth | undefined>,
     index: number
@@ -23,22 +38,12 @@ export class HealthChecker {
     const isFilelled = channel.status === 'fulfilled';
     const baseChannel = this.channels[index];
 
-    if (!isFilelled) {
-      return {
-        id: baseChannel.id,
-        endpoint: baseChannel.endpoint,
-        healthEndpoint: baseChannel.healthEndpoint,
-        priority: 0,
-        status: 'unavailable',
-      };
-    }
-
     return {
       id: baseChannel.id,
       endpoint: baseChannel.endpoint,
       healthEndpoint: baseChannel.healthEndpoint,
-      priority: 1,
-      status: 'idle',
+      priority: isFilelled ? 1 : 0,
+      status: isFilelled ? 'idle' : 'unavailable',
     };
   };
 }

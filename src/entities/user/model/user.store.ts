@@ -23,9 +23,7 @@ class UserStore {
   }
 
   get users() {
-    const data = this.usersQuery.result().data;
-    console.log(data);
-    return data;
+    return this.usersQuery.result().data;
   }
 
   get isLoading() {
