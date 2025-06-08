@@ -4,7 +4,7 @@ import { ChannelItem } from './ui/ChannelItem';
 import { observer } from 'mobx-react-lite';
 
 export const StatusApi = observer(() => {
-  const { channels, currentChannel } = userStore;
+  const { channels, currentChannel, error } = userStore;
 
   return (
     <div className={styles.wrapper}>
@@ -12,7 +12,7 @@ export const StatusApi = observer(() => {
 
       <div className={styles.endpoint}>
         <p>Current Endpoint:</p>
-        <code>{currentChannel?.endpoint}</code>
+        <code>{currentChannel?.endpoint || error}</code>
       </div>
 
       <ul className={styles['channels-list']}>

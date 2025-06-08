@@ -17,7 +17,8 @@ class UserService {
   }
 
   async getUsers(signal: AbortSignal) {
-    if (!this.channelManager?.currentChannel?.endpoint) return;
+    if (!this.channelManager?.currentChannel?.endpoint)
+      throw new Error('No available channels ');
 
     return axios.get<IUser[]>(this.channelManager?.currentChannel?.endpoint, { signal });
   }

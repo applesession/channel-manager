@@ -34,6 +34,10 @@ class UserStore {
     return this.usersQuery.result().isFetching;
   }
 
+  get error() {
+    return this.usersQuery.result().error?.message;
+  }
+
   get isFetched() {
     return this.usersQuery.result().isFetched;
   }
