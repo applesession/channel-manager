@@ -8,12 +8,6 @@ interface Props {
   channel: IChannel;
 }
 
-const statusColors = {
-  connected: 'green',
-  idle: 'orange',
-  unavailable: 'red',
-};
-
 export function ChannelItem({ channel }: Props) {
   const { setCurrentChannel } = userStore;
 
@@ -28,7 +22,17 @@ export function ChannelItem({ channel }: Props) {
       })}
     >
       <p className={styles.subtitle}>status</p>
-      <Badge color={statusColors[channel.status]}>{channel.status}</Badge>
+      <Badge
+        color={
+          channel.status === 'connected'
+            ? 'green'
+            : channel.status === 'idle'
+            ? 'orange'
+            : 'red'
+        }
+      >
+        {channel.status}
+      </Badge>
 
       <div className={styles.modal}>
         <div>

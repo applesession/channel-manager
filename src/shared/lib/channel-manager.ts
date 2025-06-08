@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import type { IBaseChannel, IChannel } from '../types/channel.type';
 import { HealthChecker } from './health-checker';
 
@@ -9,7 +9,11 @@ export class ChannelManager {
   healthChecker: HealthChecker | null = null;
   currentChannel: IChannel | null = null;
   private monitoringInterval: NodeJS.Timeout | null = null;
-  private isChecking: boolean = false;
+  private unavailableCheckInterval: NodeJS.Timeout | null = null;
+  private isCheckingCurrentChannel: boolean = false;
+  private isCheckingUnavailableChannels: boolean = false;
+  private INTERVAL_CURRENT_CHANNEL = 2000;
+  private INTERVAL_UNAVAILABLE_CHANNELS = 5000;
 
   private constructor(healthChecker: HealthChecker) {
     this.healthChecker = healthChecker;
@@ -24,6 +28,7 @@ export class ChannelManager {
     instance.channels = healthChannels;
     instance.sortChannelsByPriority();
     instance.autoSwitchChannel();
+    instance.startMonitoringUnavailableChannels();
 
     return instance;
   }
@@ -34,13 +39,6 @@ export class ChannelManager {
     this.setCurrentChannel(availableChannel);
   };
 
-  private handleNoChannelsAvailable() {
-    console.log('No available channels');
-    this.clearMonitoring();
-    this.updateCurrentChannelStatus();
-    this.currentChannel = null;
-  }
-
   setCurrentChannel = (channel: IChannel) => {
     if (this.currentChannel?.id === channel.id) return;
 
@@ -48,7 +46,7 @@ export class ChannelManager {
     this.updateCurrentChannelStatus(channel);
 
     this.currentChannel = channel;
-    this.startMonitoring();
+    this.startMonitoringCurrentChannel();
   };
 
   private updateCurrentChannelStatus(newChannel?: IChannel) {
@@ -58,23 +56,66 @@ export class ChannelManager {
     if (newChannel) newChannel.status = 'connected';
   }
 
-  private startMonitoring() {
+  private startMonitoringCurrentChannel() {
     if (this.monitoringInterval) return;
 
-    this.monitoringInterval = setInterval(() => this.checkCurrentChannelHealth(), 2000);
+    this.monitoringInterval = setInterval(
+      () => this.checkCurrentChannelHealth(),
+      this.INTERVAL_CURRENT_CHANNEL
+    );
   }
 
   private async checkCurrentChannelHealth() {
-    if (!this.currentChannel || this.isChecking || !this.healthChecker) return;
+    if (!this.currentChannel || this.isCheckingCurrentChannel || !this.healthChecker)
+      return;
 
-    this.isChecking = true;
+    this.isCheckingCurrentChannel = true;
     try {
       await this.healthChecker.checkChannel(this.currentChannel);
     } catch {
       this.handleChannelFailure();
     } finally {
-      this.isChecking = false;
+      this.isCheckingCurrentChannel = false;
     }
+  }
+
+  private startMonitoringUnavailableChannels() {
+    if (this.unavailableCheckInterval) return;
+
+    this.unavailableCheckInterval = setInterval(
+      () => this.checkUnavailableChannelsHealth(),
+      this.INTERVAL_UNAVAILABLE_CHANNELS
+    );
+  }
+
+  private async checkUnavailableChannelsHealth() {
+    if (this.isCheckingUnavailableChannels || !this.healthChecker) return;
+    const unavailableChannels = this.channels.filter((channel) => !channel.isHealth);
+    if (!unavailableChannels.length) return;
+
+    this.isCheckingUnavailableChannels = true;
+    try {
+      const results = await this.healthChecker.checkChannels(unavailableChannels);
+
+      if (!results.length) return;
+
+      this.updateChannals(results);
+
+      if (!this.currentChannel) {
+        this.autoSwitchChannel();
+      }
+    } finally {
+      this.isCheckingUnavailableChannels = false;
+    }
+  }
+
+  private updateChannals(updatedChannels: IChannel[]) {
+    updatedChannels.forEach((updatedChannel) => {
+      const index = this.channels.findIndex((c) => c.id === updatedChannel.id);
+      if (index !== -1) {
+        this.channels[index] = updatedChannel;
+      }
+    });
   }
 
   private handleChannelFailure() {
@@ -98,5 +139,12 @@ export class ChannelManager {
 
   private sortChannelsByPriority() {
     this.channels.sort((a, b) => b.priority - a.priority);
+  }
+
+  private handleNoChannelsAvailable() {
+    console.log('no available channels');
+    this.clearMonitoring();
+    this.updateCurrentChannelStatus();
+    this.currentChannel = null;
   }
 }

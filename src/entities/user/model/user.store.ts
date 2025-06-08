@@ -42,7 +42,7 @@ class UserStore {
     return this.usersQuery.result().isFetched;
   }
 
-  // note: нижестоящие свойства и методы нужны для отображения UI!
+  // note: Нижестоящие свойства и методы нужны для отображения UI!
 
   get currentChannel() {
     return userService.channelManager?.currentChannel;

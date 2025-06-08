@@ -16,7 +16,7 @@ export class HealthChecker {
     return (await Promise.allSettled(healthEndnpoints)).map(this.transformChannel);
   }
 
-  async checkChannel(channel: IChannel): Promise<IChannel | null> {
+  async checkChannel(channel: IChannel) {
     try {
       const health = await channel.healthEndpoint();
 
@@ -30,6 +30,21 @@ export class HealthChecker {
     } catch {
       throw new Error('Channel no available');
     }
+  }
+
+  async checkChannels(channels: IChannel[]) {
+    const results: IChannel[] = [];
+
+    for await (const channel of channels) {
+      try {
+        const result = await this.checkChannel(channel);
+        results.push(result);
+      } catch {
+        continue;
+      }
+    }
+
+    return results;
   }
 
   private transformChannel = (
