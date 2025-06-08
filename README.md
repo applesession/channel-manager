@@ -1,6 +1,5 @@
 # Channel-Manager
-
-![photo_2025-06-08_19-06-16](https://github.com/user-attachments/assets/c610888d-a109-4748-a3b9-5524687268d6)
+![Screenshot](https://github.com/user-attachments/assets/74bd0203-fa82-4fbc-9bb2-b0eaf7081b6b)
 
 ## 🚀 Основные возможности
 
