@@ -19,6 +19,7 @@ export class HealthChecker {
   async checkChannel(channel: IChannel): Promise<IChannel | null> {
     try {
       const health = await channel.healthEndpoint();
+
       return this.transformChannel(
         {
           status: 'fulfilled',
@@ -27,7 +28,7 @@ export class HealthChecker {
         this.channels.findIndex((c) => c.id === channel.id)
       );
     } catch {
-      return null;
+      throw new Error('Channel no available');
     }
   }
 
@@ -44,6 +45,7 @@ export class HealthChecker {
       healthEndpoint: baseChannel.healthEndpoint,
       priority: isFilelled ? 1 : 0,
       status: isFilelled ? 'idle' : 'unavailable',
+      isHealth: isFilelled ? true : false,
     };
   };
 }

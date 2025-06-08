@@ -9,6 +9,7 @@ export interface IBaseChannel {
 }
 
 export interface IChannel extends IBaseChannel {
+  isHealth: boolean;
   status: ChannelStatus;
   priority: number;
 }
